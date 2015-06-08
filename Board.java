@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+
+
 public class Board implements GBoard{
 	Ship[] board; // Contains all the ships.
 	boolean[][] hits; // 10 by 10 board that contains all the current hit locations.
 	Ship[][] shipsOnBoard; // 10 by 10 board that contains all the ship locations.
 
+	public static int length = 10;
+	public static int width = 10;
 	// Initializes the Ship array list board. Also creates the hits array list.
 	public Board()
 	{
@@ -72,15 +77,27 @@ public class Board implements GBoard{
 	// Attacks a specified location, returning false if that location has been attacked and true if it succesfully attacked that location.
 	public boolean attack(int x, int y)
 	{
-		if (this.isHit(x, y))
+		if (hits[x][y] == false)
 		{
+			hits[x][y] = true;
+			for (int i = 0; i < shipsOnBoard.length; i++)
+			{
+				if(shipsOnBoard[x][y] instanceof Ship)
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 		else
 		{
 			hits[x][y] = true;
-			return true;
+			return false;
 		}
+	}
+	public boolean[][] getNotHit()
+	{
+		return hits;
 	}
 
 	@Override
@@ -92,5 +109,4 @@ public class Board implements GBoard{
 	public int getLength() {
 		return hits.length;
 	}
-	
 }
